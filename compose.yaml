@@ -1,0 +1,25 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: abisindar_postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: abisindar
+      POSTGRES_USER: abisindar
+      POSTGRES_PASSWORD: abisindar_dev_password
+
+    ports:
+      - "5433:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U abisindar -d abisindar"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
